@@ -25,7 +25,6 @@ export default function Form() {
 
     )
     const response = await res.json();
-    console.log(response);
   }
 
   return (

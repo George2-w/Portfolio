@@ -9,12 +9,12 @@ import Model from './ThreeD/models';
 import Button from './Button';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Preload, Stage,  } from '@react-three/drei';
-import Building from '../../public/Building';
+// import Building from '../../public/Building';
 import { Html, useProgress } from '@react-three/drei'
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { useRef , useEffect} from 'react';
-import { Board } from '../../public/Board';
+// import { Board } from '../../public/Board';
 import ClientCard from './clientCard';
 import { memo } from 'react';
 
@@ -150,7 +150,7 @@ const Hero = ()=> {
                                 <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
                                 </directionalLight>
                                 <Stage environment="city" intensity={0.6} >
-                                    <Building/>
+                                    {/* <Building/> */}
                                 </Stage>
                                 <OrbitControls  />
                                 <Preload all />
@@ -173,7 +173,7 @@ const Hero = ()=> {
                             <ambientLight intensity={0.3} />
                             <directionalLight position={[10, 10, 5]} intensity={1} />
                             <Stage environment="city" intensity={0.6} >
-                                <Board/>
+                                {/* <Board/> */}
                             </Stage>
                             <OrbitControls  />
                             <Preload all />

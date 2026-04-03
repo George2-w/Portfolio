@@ -5,9 +5,9 @@ import classNames from 'classnames';
 import { Servicestools } from '../assets/data/svgObj.js';
 import { Programmingtools } from '../assets/data/svgObj.js';
 import { devopstools } from '../assets/data/svgObj.js';
-import {Server} from '../../public/Server_racking_system.jsx';
-import {Infinity} from '../../public/Infinity_loop.jsx';
-import {Laptop} from '../../public/Laptop.jsx';
+// import {Server} from '../../public/Server_racking_system.jsx';
+// import {Infinity} from '../../public/Infinity_loop.jsx';
+// import {Laptop} from '../../public/Laptop.jsx';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Preload, Stage,  } from '@react-three/drei';
 import { Suspense } from 'react';
@@ -22,12 +22,9 @@ const Iconcard = () => {
 
   useEffect(() => {
     setrendered(true);
-    console.log(`refObj.current = ${refObj.current}`);
     const canvas = inforef.current;
     if (canvas) {
       const mainwidth = canvas.getBoundingClientRect();
-      console.log(`width = ${mainwidth.width}px`);
-      console.log(`height = ${mainwidth.height}px`);
       setwidth(mainwidth.width);
       setheight(mainwidth.height);
     }
@@ -86,15 +83,9 @@ const Iconcard = () => {
 
   const iconlength = icons.length // length of the icons array
   const rows = Math.ceil(Math.sqrt(iconlength)); // number of rows based on square root of length
-  console.log(`rows : ${rows}`)
   const cols = Math.ceil(iconlength / rows); // number of columns based on rows
-  console.log(`cols:${cols}`)
-  console.log(`width : ${width}px`)
-  console.log(`height : ${height}px`)
   const cellwidth = width / cols;// width of each cell
-  console.log(`cellwidth = ${cellwidth}`)
   const cellheight = height / rows;// height of each cell
-  console.log(`cellheight = ${cellheight}`)
 
 
   return (
@@ -123,13 +114,10 @@ const Iconcard = () => {
       <div className='iconSpans'>
         <div ref={inforef} className="icon-container  ">
           {rendered && icons.map((icon, index) => {
-            console.log(`icon id : ${index} `)
             const row = Math.floor(index / cols);
             const column = Math.floor(index % cols);
             const xpos = column * cellwidth;
             const ypos = row * cellheight;
-            console.log(`row : ${row} , column : ${column} `)
-            console.log(`xpos : ${xpos}px , ypos : ${ypos}px `)
 
             return (
               <span key={index} className={classNames('iconcard', icon?.size,)} style={{
@@ -174,7 +162,7 @@ const Iconcard = () => {
                         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
                       </directionalLight>
                       <Stage environment="city" intensity={0.6} >
-                        <Server />
+                        {/* <Server /> */}
                       </Stage>
                       <OrbitControls />
                       <Preload all />
@@ -212,7 +200,7 @@ const Iconcard = () => {
                         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
                       </directionalLight>
                       <Stage environment="city" intensity={0.6} >
-                        <Infinity />
+                        {/* <Infinity /> */}
                       </Stage>
                       <OrbitControls />
                       <Preload all />
@@ -252,7 +240,7 @@ const Iconcard = () => {
                         <orthographicCamera attach="shadow-camera" args={[-10, 10, 10, -10]} />
                       </directionalLight>
                       <Stage environment="city" intensity={0.6} >
-                        <Laptop/>
+                        {/* <Laptop/> */}
                       </Stage>
                       <OrbitControls />
                       <Preload all />
