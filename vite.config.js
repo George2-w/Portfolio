@@ -7,7 +7,7 @@ import svgr from "vite-plugin-svgr";
 export default defineConfig({
   plugins: [react(), tailwindcss(), svgr(),],
   assetsInclude: ['**/*.gltf', '**/*.glb', '**/*.hdr', '**/*.mp4', '**/*.mov'],
-  base:"/",
+  base:"/portfolioDocs/",
    build: {
     chunkSizeWarningLimit: 2000, 
   rollupOptions: {
