@@ -6,23 +6,27 @@
 
 # Want to help us make this template better? Share your feedback here: https://forms.gle/ybq9Krt8jtBL3iCk7
 
-ARG NODE_VERSION=22.21.0
+ARG NODE_VERSION=25.9.0
 
 ################################################################################
 # Use node image for base image for all stages.
 FROM node:${NODE_VERSION}-alpine as base
 
 # Set working directory for all build stages.
-WORKDIR /Users/Dell/Desktop/My_website/docs/
-RUN chown -R node:node /Users/Dell/Desktop/My_website/docs
+WORKDIR /usr/src/app
 
+# Copy lockfiles
+COPY package*.json ./
 
-# Inside your Dockerfile
+# --- ADD THESE LINES ---
+# Create the node_modules folder as root first
 USER root
-RUN mkdir -p node_modules/.vite && chown -R node:node node_modules/.vite
+RUN mkdir -p node_modules/.vite-temp && chown -R node:node /usr/src/app
+# -----------------------
+
 USER node
-
-
+RUN npm install
+COPY --chown=node:node . .
 
 
 ################################################################################
@@ -70,13 +74,12 @@ COPY package.json .
 
 # Copy the production dependencies from the deps stage and also
 # the built application from the build stage into the image.
-COPY --from=deps /Users/Dell/Desktop/My_website/docs/node_modules ./node_modules
-COPY --from=build /Users/Dell/Desktop/My_website/docs/ ./
+COPY --from=deps /usr/src/app/node_modules ./node_modules
+COPY --from=build /usr/src/app/. ./.
 
 
 # Expose the port that the application listens on.
-EXPOSE 5173
+EXPOSE 8090
 
 # Run the application.
-CMD npm run app
-
+CMD  npm run app

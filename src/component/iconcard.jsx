@@ -105,7 +105,7 @@ const Iconcard = () => {
       </section>
 
 
-      <div>
+      <div className='botimg'>
         <img src={Bot} 
           alt='glass'
           className=' w-full h-500 object-cover brightness-50 opacity-9 z-70 mr-180 '
@@ -250,7 +250,7 @@ const Iconcard = () => {
                   </Canvas>
                 </div>
                 <h1>Languages</h1>
-                <div className=' text-4xl font-bold  z-50  m-5 animate  '>
+                <div className=' text-4xl font-bold  z-50  m-5 animate  '>  
                   <span className='flex-center gap-10 spantext mt-27'>
                     <div >
                       {Programmingtools.map((Htext) => (

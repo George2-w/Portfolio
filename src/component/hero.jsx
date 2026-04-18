@@ -3,9 +3,9 @@ import glass from '../assets/images/glass.jpg';
 import pattern from '../assets/images/pattern.jpg';
 import clay from '../../public/images/clay.jpg';
 import { Herotext } from '../assets/data/svgObj';
-import Boxap from './ThreeD/boxmodel';
+// import Boxap from './ThreeD/boxmodel';
 import { NavLink } from "react-router-dom";
-import Model from './ThreeD/models';
+// import Model from './ThreeD/models';
 import Button from './Button';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, Preload, Stage,  } from '@react-three/drei';
@@ -90,11 +90,11 @@ const Hero = ()=> {
                     <img
                         src={clay}
                         alt='glass'
-                        className=' w-full h-full object-cover brightness-50 opacity-2 z-70 '
+                        className=' w-full h-full object-cover brightness-50 opacity-2 z-70 clayimg '
                     />
                     
                 <div className='text-black absolute top-0.5 left-100 text-2xl font-bold w-1/2 text-center  mt-20 justify-center items-center hText'>
-                        <p>Hi my name is Ajileye George I am a web developer and designer <br></br>with a passion for creating visually stunning and user-friendly websites.</p>
+                        <p>Hi my name is George Ajileye I am a web developer and designer <br></br>with a passion for creating visually stunning and user-friendly websites.</p>
                 </div>
                    </div>  
 
@@ -102,13 +102,13 @@ const Hero = ()=> {
 
 
                 <div className='justify-center items-center '>
-                    <div className='text-red-600 text-3xl z-50 font-bold absolute top-90 left-250'>
+                    <div className='text-red-600 text-3xl z-50 font-bold absolute top-90 left-250 scrolltext'>
                         <div className='container'>
                             <h3 className=' responsivetext'>
                                  We deal with
                             </h3>
                               
-                            <div className=' text-4xl font-bold  z-50  m-5 animate  '>
+                            <div className=' text-4xl font-bold  z-50  m-5 scrollanimate  '>
                              <span className='flex-center gap-10 spantext mt-27'>
                               <div >
                                 {Herotext.map((Htext)=>(
@@ -158,7 +158,7 @@ const Hero = ()=> {
                         </Canvas>
 
                 </div>
-                <div className='absolute top-40 left-600  w-1/4 h-186  z-5  text-7xl font-bold text-black opacity-27  '>
+                <div className='absolute top-40 left-600  w-1/4 h-186  z-5  text-7xl font-bold text-black opacity-27  navigationbar '>
                     <ul className='ulheadersect cursor-pointer' id='ulheadersect' ref={inforef}>
                         <li><a onClick={Clientlogic} >about</a></li>
                         <li><a onClick={Servicelogic}>work</a></li>

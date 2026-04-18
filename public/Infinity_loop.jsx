@@ -8,16 +8,16 @@ Source: https://sketchfab.com/3d-models/infinity-loop-c6989de854ea4acab75b7d5ed7
 Title: Infinity Loop
 */
 
-import React from 'react'
-import { useGLTF } from '@react-three/drei'
+// import React from 'react'
+// import { useGLTF } from '@react-three/drei'
 
-export function Infinity(props) {
-  const { nodes, materials } = useGLTF('/infinity_loop-transformed.glb')
-  return (
-    <group {...props} dispose={null}>
-      <mesh geometry={nodes.Object_2.geometry} material={materials.material_0} position={[0, 1.204, -1.949]} rotation={[-Math.PI, 0, 0]} />
-    </group>
-  )
-}
+// export function Infinity(props) {
+//   const { nodes, materials } = useGLTF('/infinity_loop-transformed.glb')
+//   return (
+//     <group {...props} dispose={null}>
+//       <mesh geometry={nodes.Object_2.geometry} material={materials.material_0} position={[0, 1.204, -1.949]} rotation={[-Math.PI, 0, 0]} />
+//     </group>
+//   )
+// }
 
-useGLTF.preload('/infinity_loop-transformed.glb')
+// useGLTF.preload('/infinity_loop-transformed.glb')

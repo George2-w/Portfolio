@@ -8,19 +8,19 @@ Source: https://sketchfab.com/3d-models/laptop-c1988d0aa23544c683adfe53c3cec0c0
 Title: laptop
 */
 
-import React from 'react'
-import { useGLTF } from '@react-three/drei'
+// import React from 'react'
+// import { useGLTF } from '@react-three/drei'
 
-export function Laptop(props) {
-  const { nodes, materials } = useGLTF('/laptop-transformed.glb')
-  return (
-    <group {...props} dispose={null}>
-      <mesh geometry={nodes.Object_4.geometry} material={materials['Material.002']} position={[-0.929, 0, -0.308]} />
-      <mesh geometry={nodes.Object_5.geometry} material={materials.Material} position={[-0.929, 0, -0.308]} />
-      <mesh geometry={nodes.Object_7.geometry} material={materials['Material.001']} position={[0, 0.13, 0]} />
-      <mesh geometry={nodes.Object_9.geometry} material={materials['Material.005']} position={[0, 1.408, -1.343]} rotation={[Math.PI / 2, 0, 0]} />
-    </group>
-  )
-}
+// export function Laptop(props) {
+//   const { nodes, materials } = useGLTF('/laptop-transformed.glb')
+//   return (
+//     <group {...props} dispose={null}>
+//       <mesh geometry={nodes.Object_4.geometry} material={materials['Material.002']} position={[-0.929, 0, -0.308]} />
+//       <mesh geometry={nodes.Object_5.geometry} material={materials.Material} position={[-0.929, 0, -0.308]} />
+//       <mesh geometry={nodes.Object_7.geometry} material={materials['Material.001']} position={[0, 0.13, 0]} />
+//       <mesh geometry={nodes.Object_9.geometry} material={materials['Material.005']} position={[0, 1.408, -1.343]} rotation={[Math.PI / 2, 0, 0]} />
+//     </group>
+//   )
+// }
 
-useGLTF.preload('/laptop-transformed.glb')
+// useGLTF.preload('/laptop-transformed.glb')
