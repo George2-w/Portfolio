@@ -13,11 +13,34 @@ services:
       context: .
     environment:
       NODE_ENV: production
-    ports:
-      - 8090:8090
     volumes:
       - .:/usr/src/app
       - /usr/src/app/node_modules
+#  Nginx is a popular web server that can be used as a reverse proxy to serve your application.
+
+  webserver:
+    image: nginx:latest
+    ports:
+      - 80:80
+      - 443:443
+    restart: always
+    volumes:
+      - ./nginx/conf/:/etc/nginx/conf.d/:ro
+      - ./certbot/www/:/var/www/certbot/:ro
+  certbot:
+    image: certbot/certbot:latest
+    volumes:
+      - ./certbot/www/:/var/www/certbot/:rw
+      - ./certbot/conf/:/etc/letsencrypt/:rw
+      - ./certbot/conf:/etc/letsencrypt
+      - ./certbot/www:/var/www/certbot
+    # entrypoint: "/bin/sh -c 'trap exit TERM; while :; do certbot renew; sleep 12h & wait $${!}; done'"  
+    # command: certonly --webroot --webroot-path=/var/www/certbot --email ajieyegeorge@gmail.com --agree-tos --no-eff-email -d ajileyegeorgeportfolio.com
+
+
+
+
+    
 
 # The commented out section below is an example of how to define a PostgreSQL
 # database that your application can use. `depends_on` tells Docker Compose to

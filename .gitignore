@@ -22,3 +22,11 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+vite.config.js
+certbot/conf
+certbot/work/
+certbot/www/
+certbot
+privkey.pem
+letsencrypt
+/etc/letsencrypt/live

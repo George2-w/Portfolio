@@ -9,8 +9,8 @@ export default defineConfig({
   assetsInclude: ['**/*.gltf', '**/*.glb', '**/*.hdr', '**/*.mp4', '**/*.mov'],
 
   server: {
-    host: '0.0.0.0',
-    port: 8090,
+    host: '0.0.0.0',// Allow access from network. This makes sure the docker internal port 8090 is connected to the host machine's port 5173.
+    port: 5173,
     watch: {
       usePolling: true,
     }

@@ -79,7 +79,15 @@ COPY --from=build /usr/src/app/. ./.
 
 
 # Expose the port that the application listens on.
-EXPOSE 8090
+# EXPOSE 5173
 
 # Run the application.
 CMD  npm run app
+
+
+# Stage 2: Serve the app with Nginx
+FROM nginx:alpine
+# Copy the build output from the first stage to Nginx
+COPY --from=build /app/dist /usr/share/nginx/html
+# EXPOSE the internal port NPM will look for
+EXPOSE 80
