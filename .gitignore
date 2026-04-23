@@ -30,3 +30,4 @@ certbot
 privkey.pem
 letsencrypt
 /etc/letsencrypt/live
+gemini.md
