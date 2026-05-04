@@ -1,48 +1,75 @@
-name: Push to Artifact Registry
+# Simple workflow for deploying static content to GitHub Pages
+name: Deploy static content to Pages
 
 on:
-    push:
-      branches: [ "main" ]
+  # Runs on pushes targeting the default branch
+  push:
+    branches: ["main"]
 
-env:
-  IMAGE_NAME: 'my-webapp-image'
-  PROJECT_ID: 'project-94e9628f-1e11-4518-969'
-  AR_REPO_LOCATION: 'northamerica-northeast2-'
-  AR_URL: 'northamerica-northeast2-docker.pkg.dev/project-94e9628f-1e11-4518-969/george-website'
- 
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
+# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
+concurrency:
+  group: "pages"
+  cancel-in-progress: false
+
 jobs:
-  push_to_ar:
-    permissions:
-      contents: 'read'
-      id-token: 'write'
-
+  # Single deploy job since we're just deploying
+  deploy:
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
-
-      - name: Google Auth
-        id: auth
-        uses: 'google-github-actions/auth@v2'
+        uses: actions/checkout@v4
+      - name: Setup Pages
+        uses: actions/configure-pages@v5
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          token_format: 'access_token'
-          project_id: ${{ env.PROJECT_ID }}
+          # Upload entire repository
+          path: '.'
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v5
+        # job 2
+        
+#   name: Deploy to GCP and GitHub Pages
+
+# on:
+#   push:
+#     branches: ["main"]
+
+# # Essential permissions for Workload Identity Federation (WIF) and Pages
+# permissions:
+#   contents: read
+#   id-token: write   # Required for both Google Cloud WIF and Pages OIDC
+#   pages: write      # Required specifically for GitHub Pages
+
+# job2
+  # Job 2: Deploy to Google Cloud (e.g., Cloud Run or GCS)
+  deploy-gcp:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v2
+        with:
+          # Use your numeric Project Number here, not the Project ID
           workload_identity_provider: 'projects/638495537867/locations/global/workloadIdentityPools/github/providers/github-portfolio'
-          service_account: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com'
-
-      - name: Docker Auth
-        id: docker-auth
-        uses: 'docker/login-action@v1'
-        with:
-          username: 'oauth2accesstoken'
-          password: '${{ steps.auth.outputs.access_token }}'
-          registry: '${{ env.AR_REPO_LOCATION }}-docker.pkg.dev'
-
-      - name: Build and Push Container
-        run: |-
-          docker build -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" ./
-          docker push "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
-
-        
-
-        
+          service_account: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com:generateAccessToken'
+          
+          contents: read
+          pages: write
+          id-token: write
