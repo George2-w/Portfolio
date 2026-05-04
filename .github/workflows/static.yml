@@ -6,7 +6,7 @@ on:
 
 env:
   # Edit these to match your GCP setup
-  GCP_REGION: "us-central1"
+  GCP_REGION: "northamerica-northeast2"
   GAR_REPO: "george-website"
   IMAGE_NAME: "my-app"
   
