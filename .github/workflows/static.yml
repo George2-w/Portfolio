@@ -7,7 +7,7 @@ on:
 env:
   # Edit these to match your GCP setup
   GCP_REGION: "us-central1"
-  GAR_REPO: "my-docker-repo"
+  GAR_REPO: "george-website"
   IMAGE_NAME: "my-app"
   
   # GitHub source image path
