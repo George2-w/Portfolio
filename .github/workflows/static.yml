@@ -57,20 +57,76 @@ jobs:
 
 # job2
   # Job 2: Deploy to Google Cloud (e.g., Cloud Run or GCS)
-  deploy-gcp:
+  
+  
+
+    
+ on:
+  push:
+    branches: [ "main" ] # Triggers when you push to main
+
+env:
+  # Edit these to match your GCP setup
+  GCP_REGION: "us-central1"
+  GAR_REPO: "my-docker-repo"
+  IMAGE_NAME: "my-app"
+  
+  # GitHub source image path
+  GHCR_IMAGE: "ghcr.io/${{ github.repository_owner }}/my-app:latest"
+
+jobs:
+  sync-job:
     runs-on: ubuntu-latest
+    
+    # CRITICAL: These permissions allow WIF to work and GHCR to be accessed
+    permissions:
+      contents: read
+      id-token: write   # Required for Google WIF
+      packages: read    # Required to pull from GHCR
+
     steps:
-      - name: Checkout code
+      - name: Checkout Code
         uses: actions/checkout@v4
 
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
+      # 1. AUTHENTICATE TO GOOGLE CLOUD
+      # This uses Workload Identity Federation (no service account keys needed)
+      - id: 'auth'
+        name: 'Authenticate to Google Cloud'
+        uses: 'google-github-actions/auth@v2'
         with:
-          # Use your numeric Project Number here, not the Project ID
           workload_identity_provider: 'projects/638495537867/locations/global/workloadIdentityPools/github/providers/github-portfolio'
           service_account: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com:generateAccessToken'
+
+      # 2. CONFIGURE DOCKER FOR GOOGLE CLOUD
+      # This teaches Docker how to push to your specific GCP region
+      - name: 'Configure Docker for GAR'
+        run: |
+          gcloud auth configure-docker ${{ env.GCP_REGION }}-docker.pkg.dev --quiet
+
+      # 3. LOGIN TO GITHUB CONTAINER REGISTRY
+      # Uses the automatic GITHUB_TOKEN (no manual secret creation needed)
+      - name: 'Login to GHCR'
+        uses: docker/login-action@v3
+        with:
+          registry: ghcr.io
+          username: ${{ github.actor }}
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # 4. PULL, TAG, AND PUSH
+      # This bridges the two registries
+      - name: 'Sync Image'
+        run: |
+          # 1. Pull the existing image from GitHub
+          docker pull ${{ env.GHCR_IMAGE }}
           
-          contents: read
-          pages: write
-          id-token: write
+          # 2. Define the new tag for Google Artifact Registry
+          # Format: REGION-docker.pkg.dev/PROJECT_ID/REPO/IMAGE:TAG
+          GAR_TAG="${{ env.GCP_REGION }}-docker.pkg.dev/${{ steps.auth.outputs.project_id }}/${{ env.GAR_REPO }}/${{ env.IMAGE_NAME }}:latest"
+          
+          # 3. Re-tag the image
+          docker tag ${{ env.GHCR_IMAGE }} $GAR_TAG
+          
+          # 4. Push to Google Cloud
+          docker push $GAR_TAG
+
         
