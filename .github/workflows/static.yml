@@ -5,10 +5,11 @@ on:
       branches: [ "main" ]
 
 env:
-  IMAGE_NAME: 'my-app-image'
-  AR_REPO_LOCATION: 'northamerica-northeast2'
-  AR_URL: 'northamerica-northeast2-docker.pkg.dev/my-project-id/my-ar-repo'
-  SERVICE_ACCOUNT: 'github-actions-service-account@${{secrets.MYPROJECTID}}.iam.gserviceaccount.com' 
+  IMAGE_NAME: 'my-webapp-image'
+  PROJECT_ID: 'project-94e9628f-1e11-4518-969'
+  AR_REPO_LOCATION: 'northamerica-northeast2-'
+  AR_URL: 'northamerica-northeast2-docker.pkg.dev/project-94e9628f-1e11-4518-969/george-website'
+  SERVICE_ACCOUNT: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com:generateAccessToken' 
   WORKLOAD_IDENTITY_PROVIDER: 'projects/638495537867/locations/global/workloadIdentityPools/github/providers/github-portfolio'
 
 jobs:
@@ -27,9 +28,9 @@ jobs:
         uses: 'google-github-actions/auth@v2'
         with:
           token_format: 'access_token'
-          project_id: ${{secrets.MYPROJECTID}}
-          workload_identity_provider: 'projects/638495537867/locations/global/workloadIdentityPools/github/providers/github-portfolio'
-          service_account: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com:generateAccessToken'
+          project_id: ${{ env.PROJECT_ID }}
+          service_account: ${{ env.SERVICE_ACCOUNT }}
+          workload_identity_provider: ${{ env.WORKLOAD_IDENTITY_PROVIDER }}
 
       - name: Docker Auth
         id: docker-auth
@@ -43,7 +44,6 @@ jobs:
         run: |-
           docker build -t "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}" ./
           docker push "${{ env.AR_URL }}/${{ env.IMAGE_NAME }}:${{ github.sha }}"
-
 
         
 
