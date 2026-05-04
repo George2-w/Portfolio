@@ -9,7 +9,7 @@ env:
   PROJECT_ID: 'project-94e9628f-1e11-4518-969'
   AR_REPO_LOCATION: 'northamerica-northeast2-'
   AR_URL: 'northamerica-northeast2-docker.pkg.dev/project-94e9628f-1e11-4518-969/george-website'
-  SERVICE_ACCOUNT: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com:generateAccessToken' 
+  SERVICE_ACCOUNT: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com' 
   WORKLOAD_IDENTITY_PROVIDER: 'projects/638495537867/locations/global/workloadIdentityPools/github/providers/github-portfolio'
 
 jobs:
