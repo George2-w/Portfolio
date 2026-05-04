@@ -11,7 +11,7 @@ env:
   IMAGE_NAME: "my-app"
   
   # GitHub source image path
-  GHCR_IMAGE: "ghcr.io/${{ github.repository_owner }}/my-app:latest"
+  GHCR_IMAGE: "ghcr.io/mirror7777777/my-app:latest"
 
 jobs:
   sync-job:
