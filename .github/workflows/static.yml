@@ -1,127 +1,47 @@
-# Simple workflow for deploying static content to GitHub Pages
-name: Deploy static content to Pages
-
+name: Release
 on:
-  # Runs on pushes targeting the default branch
   push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+  docker-release:
+    name: Tagged Docker release to Google Artifact Registry
     runs-on: ubuntu-latest
+    if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')  # <-- Notice that I'm filtering here to only run when a tagged commit is pushed
+
+    permissions:
+      contents: 'read'
+      id-token: 'write'
+
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
+      - id: checkout
+        name: Checkout
+        uses: actions/checkout@v2
+
+      - id: auth
+        name: Authenticate with Google Cloud
+        uses: google-github-actions/auth@v0
         with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
-        # job 2
-        
-#   name: Deploy to GCP and GitHub Pages
-
-# on:
-#   push:
-#     branches: ["main"]
-
-# # Essential permissions for Workload Identity Federation (WIF) and Pages
-# permissions:
-#   contents: read
-#   id-token: write   # Required for both Google Cloud WIF and Pages OIDC
-#   pages: write      # Required specifically for GitHub Pages
-
-# job2
-  # Job 2: Deploy to Google Cloud (e.g., Cloud Run or GCS)
-  deploy-gcp:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          # Use your numeric Project Number here, not the Project ID
+          token_format: access_token
           workload_identity_provider: 'projects/638495537867/locations/global/workloadIdentityPools/github/providers/github-portfolio'
           service_account: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com:generateAccessToken'
-          
-          contents: read
-          pages: write
-          id-token: write
-          name: Release
+          access_token_lifetime: 300s
 
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v1
+        with:
+          registry: northamerica-northeast2-docker.pkg.dev
+          username: oauth2accesstoken
+          password: ${{ steps.auth.outputs.access_token }}
 
+      - name: Get tag
+        id: get-tag
+        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
 
-
-          
-        on:
-          push:
-        
-        jobs:
-          docker-release:
-            name: Tagged Docker release to Google Artifact Registry
-            runs-on: ubuntu-latest
-            if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags')  # <-- Notice that I'm filtering here to only run when a tagged commit is pushed
-        
-            permissions:
-              contents: 'read'
-              id-token: 'write'
-        
-            steps:
-              - id: checkout
-                name: Checkout
-                uses: actions/checkout@v2
-        
-              - id: auth
-                name: Authenticate with Google Cloud
-                uses: google-github-actions/auth@v0
-                with:
-                  token_format: access_token
-                  workload_identity_provider: 'projects/638495537867/locations/global/workloadIdentityPools/github/providers/github-portfolio'
-                  service_account: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com:generateAccessToken'
-                  access_token_lifetime: 300s
-        
-              - name: Login to Artifact Registry
-                uses: docker/login-action@v1
-                with:
-                  registry: northamerica-northeast2-docker.pkg.dev
-                  username: oauth2accesstoken
-                  password: ${{ steps.auth.outputs.access_token }}
-        
-              - name: Get tag
-                id: get-tag
-                run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
-        
-              - id: docker-push-tagged
-                name: Tag Docker image and push to Google Artifact Registry
-                uses: docker/build-push-action@v2
-                with:
-                  push: true
-                  tags: |
-                     northamerica-northeast2-docker.pkg.dev/${{secrets.MYPROJECTID}}/george-website/gApp:${{ steps.get-tag.outputs.short_ref }}
-                     northamerica-northeast2-docker.pkg.dev/${{secrets.MYPROJECTID}}/george-website/gApp:latest
+      - id: docker-push-tagged
+        name: Tag Docker image and push to Google Artifact Registry
+        uses: docker/build-push-action@v2
+        with:
+          push: true
+          tags: |
+             northamerica-northeast2-docker.pkg.dev/${{secrets.MYPROJECTID}}/george-website/gApp:${{ steps.get-tag.outputs.short_ref }}
+             northamerica-northeast2-docker.pkg.dev/${{secrets.MYPROJECTID}}/george-website/gApp:latest
