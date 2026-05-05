@@ -23,7 +23,7 @@ jobs:
         with:
           token_format: access_token
           workload_identity_provider: 'projects/638495537867/locations/global/workloadIdentityPools/github/providers/github-portfolio'
-          service_account: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com:generateAccessToken'
+          service_account: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com'
           access_token_lifetime: 300s
 
       - name: Login to Artifact Registry
