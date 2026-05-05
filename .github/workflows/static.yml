@@ -35,7 +35,7 @@ jobs:
 
       - name: Get tag
         id: get-tag
-        run: echo ::set-output name=short_ref::${GITHUB_REF#refs/*/}
+        run: echo "short_ref=${GITHUB_REF#refs/*/}" >> "$GITHUB_OUTPUT"
 
       - id: docker-push-tagged
         name: Tag Docker image and push to Google Artifact Registry
@@ -43,5 +43,6 @@ jobs:
         with:
           push: true
           tags: |
-             northamerica-northeast2-docker.pkg.dev/${{secrets.MYPROJECTID}}/george-website/gApp:${{ steps.get-tag.outputs.short_ref }}
-             northamerica-northeast2-docker.pkg.dev/${{secrets.MYPROJECTID}}/george-website/gApp:latest
+             northamerica-northeast2-docker.pkg.dev/project-94e9628f-1e11-4518-969/george-website/gApp:${{ steps.get-tag.outputs.short_ref }}
+             northamerica-northeast2-docker.pkg.dev/project-94e9628f-1e11-4518-969/george-website/gApp:latest
+             northamerica-northeast2-docker.pkg.dev/project-94e9628f-1e11-4518-969/george-website
