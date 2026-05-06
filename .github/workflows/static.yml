@@ -46,4 +46,4 @@ jobs:
           tags: |
              northamerica-northeast2-docker.pkg.dev/project-94e9628f-1e11-4518-969/george-website/gApp:${{ steps.get-tag.outputs.short_ref }}
              northamerica-northeast2-docker.pkg.dev/project-94e9628f-1e11-4518-969/george-website/gApp:latest
-             northamerica-northeast2-docker.pkg.dev/project-94e9628f-1e11-4518-969/george-website
+      
