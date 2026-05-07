@@ -24,9 +24,9 @@ jobs:
       id: auth
       with:
         token_format: access_token
-        project_id: ${{secrets.GCP_PROJECT_ID }}
-        workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER_ID }}
-        service_account: ${{ secrets.GCP_SERVICE_ACCOUNT_EMAIL }}
+        project_id: "project-94e9628f-1e11-4518-969"
+        workload_identity_provider: "projects/638495537867/locations/global/workloadIdentityPools/standpool/providers/mygithubcoid"
+        service_account: "githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com"
 
     - uses: docker/login-action@v3
       with:
