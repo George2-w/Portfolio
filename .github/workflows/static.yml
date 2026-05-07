@@ -40,6 +40,6 @@ jobs:
         context: .
         platforms: windows-latest
         push: ${{ github.ref == 'refs/heads/main' && github.event_name != 'pull_request' }}
-        tags: northamerica-northeast2-docker.pkg.dev/${{secrets.GCP_PROJECT_ID }}/images/george-website:latest
+        tags: northamerica-northeast2-docker.pkg.dev/project-94e9628f-1e11-4518-969/gdockerimage
         cache-from: type=gha
         cache-to: type=gha,mode=max
