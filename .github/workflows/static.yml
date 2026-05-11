@@ -1,4 +1,4 @@
-name: Deploy static content to Pages
+name: Deploy to GCP
 
 on:
   # Runs on pushes targeting the default branch
@@ -14,48 +14,7 @@ permissions:
   pages: write
   id-token: write
 
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
-
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
-        # job 2
-        
-#   name: Deploy to GCP and GitHub Pages
-
-# on:
-#   push:
-#     branches: ["main"]
-
-# # Essential permissions for Workload Identity Federation (WIF) and Pages
-# permissions:
-#   contents: read
-#   id-token: write   # Required for both Google Cloud WIF and Pages OIDC
-#   pages: write      # Required specifically for GitHub Pages
-
-# job2
-  # Job 2: Deploy to Google Cloud (e.g., Cloud Run or GCS)
   deploy-gcp:
     runs-on: ubuntu-latest
     steps:
@@ -67,8 +26,7 @@ jobs:
           # Use your numeric Project Number here, not the Project ID
           workload_identity_provider: 'projects/440081038764/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: 'githubserviceaccount@githubauth-495804.iam.gserviceaccount.com:generateAccessToken'
-          contents: read
-          pages: write
-          id-token: write
-            
+       
+        
+
       
