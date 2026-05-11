@@ -25,7 +25,7 @@ jobs:
         with:
           # Use your numeric Project Number here, not the Project ID
           workload_identity_provider: 'projects/440081038764/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: 'githubserviceaccount@githubauth-495804.iam.gserviceaccount.com:generateAccessToken'
+          service_account: 'githubserviceaccount@githubauth-495804.iam.gserviceaccount.com'
           token_format: access_token
           access_token_lifetime: 3600s
       - name: Login to Artifact Registry
@@ -35,6 +35,8 @@ jobs:
           username: "oauth2accesstoken"
           password: "${{ steps.auth.outputs.access_token }}"
        
+     
+
         
 
       
