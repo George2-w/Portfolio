@@ -14,8 +14,8 @@ jobs:
             - name: Authenticate to Google Cloud
               uses: google-github-actions/auth@v1
               with:
-                workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
-                service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+                workload_identity_provider: 'projects/440081038764/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+                service_account: 'githubserviceaccount@githubauth-495804.iam.gserviceaccount.com:generateAccessToken'
                 contents: read
                 pages: write
                 id-token: write
