@@ -72,5 +72,23 @@ jobs:
           contents: read
           pages: write
           id-token: write
+# Authenication to login to Artifact Registry using the access token obtained from the previous step
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: "${{ secrets.GCP_REGION }}-docker.pkg.dev"
+          username: "oauth2accesstoken"
+          password: "${{ steps.auth.outputs.access_token }}"
+          
+# Build and push the Docker image to Artifact Registry
+      - name: Build and push Docker image
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          push: ${{ github.event_name != 'pull_request' }}
+          tags: ${{ steps.meta.outputs.tags }}
+          labels: ${{ steps.meta.outputs.labels }}
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
         
                 
