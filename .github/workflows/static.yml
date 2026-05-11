@@ -24,7 +24,7 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           # Use your numeric Project Number here, not the Project ID
-          workload_identity_provider: 'projects/440081038764/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
+          workload_identity_provider: 'projects/440081038764/locations/global/workloadIdentityPools/github-pool/attribute.repository/mirror7777777'
           service_account: 'githubserviceaccount@githubauth-495804.iam.gserviceaccount.com'
           token_format: access_token
           access_token_lifetime: 10600s
@@ -35,6 +35,7 @@ jobs:
           username: "oauth2accesstoken"
           password: "${{ steps.auth.outputs.access_token }}"
        
+          
      
 
         
