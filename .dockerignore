@@ -5,6 +5,7 @@
 # https://docs.docker.com/go/build-context-dockerignore/
 
 **/.classpath
+test.yml
 **/.dockerignore
 **/.env
 **/.git
