@@ -1,3 +1,4 @@
+# Simple workflow for deploying static content to GitHub Pages
 name: Deploy static content to Pages
 
 on:
@@ -66,17 +67,9 @@ jobs:
         uses: google-github-actions/auth@v2
         with:
           # Use your numeric Project Number here, not the Project ID
-          workload_identity_provider: 'projects/440081038764/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: 'githubserviceaccount@githubauth-495804.iam.gserviceaccount.com:generateAccessToken'
+          workload_identity_provider: 'projects/638495537867/locations/global/workloadIdentityPools/github/providers/github-portfolio'
+          service_account: 'githubconnect@project-94e9628f-1e11-4518-969.iam.gserviceaccount.com:generateAccessToken'
           
           contents: read
           pages: write
           id-token: write
-      - id: 'gcloud'
-        name: 'gcloud'
-        run: |-
-          gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
-          gcloud services list
-# Authenication to login to Artifact Registry using the access token obtained from the previous step
-        
-                
