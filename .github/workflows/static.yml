@@ -1,72 +1,63 @@
-name: Deploy static content to Pages
-
+name: Deploy docker images to GCP Artifact registry
 on:
-  # Runs on pushes targeting the default branch
-  push:
-    branches: ["main"]
-
-  # Allows you to run this workflow manually from the Actions tab
-  workflow_dispatch:
-
-# Sets permissions of the GITHUB_TOKEN to allow deployment to GitHub Pages
-permissions:
-  contents: read
-  pages: write
-  id-token: write
-
-# Allow only one concurrent deployment, skipping runs queued between the run in-progress and latest queued.
-# However, do NOT cancel in-progress runs as we want to allow these production deployments to complete.
-concurrency:
-  group: "pages"
-  cancel-in-progress: false
+    push:
+      branches: ["main"]
+    pull_request:
+      branches: ["main"]  
 
 jobs:
-  # Single deploy job since we're just deploying
-  deploy:
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-      - name: Setup Pages
-        uses: actions/configure-pages@v5
-      - name: Upload artifact
-        uses: actions/upload-pages-artifact@v3
-        with:
-          # Upload entire repository
-          path: '.'
-      - name: Deploy to GitHub Pages
-        id: deployment
-        uses: actions/deploy-pages@v5
-        # job 2
-        
-#   name: Deploy to GCP and GitHub Pages
+    deploygcp:
+        runs-on: ubuntu-latest
+        steps:
+            - name: Checkout code
+              uses: actions/checkout@v4
+            - name: Authenticate to Google Cloud
+              uses: google-github-actions/auth@v1
+              with:
+                workload_identity_provider: ${{ secrets.GCP_WORKLOAD_IDENTITY_PROVIDER }}
+                service_account: ${{ secrets.GCP_SERVICE_ACCOUNT }}
+                contents: read
+                pages: write
+                id-token: write
 
-# on:
-#   push:
-#     branches: ["main"]
+#             - name: Configure Docker for Google Cloud
+#               run: gcloud auth configure-docker
+#             - name: Build and Push Docker Image to GCP Artifact Registry
+#               run: |
+#                 docker build -t us-central1-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GAR_REPOSITORY }}/${{ env.IMAGE_NAME }}:latest .
+#                 docker push us-central1-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GAR_REPOSITORY }}/${{ env.IMAGE_NAME }}:latest
 
-# # Essential permissions for Workload Identity Federation (WIF) and Pages
-# permissions:
-#   contents: read
-#   id-token: write   # Required for both Google Cloud WIF and Pages OIDC
-#   pages: write      # Required specifically for GitHub Pages
+#             - name: Login to Artifact Registry
+#               uses: docker/login-action@v3
+#               with:
+#                 registry: "${{ env.GCP_REGION }}-docker.pkg.dev"
+#                 username: "oauth2accesstoken"
+#                 password: "${{ steps.auth.outputs.access_token }}"
 
-# job2
-  # Job 2: Deploy to Google Cloud (e.g., Cloud Run or GCS)
-  deploy-gcp:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-      - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v2
-        with:
-          # Use your numeric Project Number here, not the Project ID
-          workload_identity_provider: 'projects/440081038764/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
-          service_account: 'githubserviceaccount@githubauth-495804.iam.gserviceaccount.com:generateAccessToken'
-          contents: read
-          pages: write
-          id-token: write
+#             - id: 'gcloud'
+#               name: 'gcloud'
+#               run: |-
+#                 gcloud auth login --brief --cred-file="${{ steps.auth.outputs.credentials_file_path }}"
+#                 gcloud services list
+
+# # extracting metadata
+#             - name: Extract Docker metadata
+#               id: meta
+#               uses: docker/metadata-action@v5
+#               with:
+#                 images: ${{ env.GCP_REGION }}-docker.pkg.dev/${{ env.GCP_PROJECT_ID }}/${{ env.GAR_REPOSITORY }}/${{ env.IMAGE_NAME }}
+
+                
+#             - name: Build and push Docker image
+#               uses: docker/build-push-action@v6
+#               with:
+#                 context: .
+#                 push: ${{ github.event_name != 'pull_request' }}
+#                 tags: ${{ steps.meta.outputs.tags }}
+#                 labels: ${{ steps.meta.outputs.labels }}
+#                 cache-from: type=gha
+#                 cache-to: type=gha,mode=max
+
+
+            
+      
