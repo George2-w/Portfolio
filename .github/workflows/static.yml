@@ -26,6 +26,12 @@ jobs:
           # Use your numeric Project Number here, not the Project ID
           workload_identity_provider: 'projects/440081038764/locations/global/workloadIdentityPools/github-pool/providers/github-provider'
           service_account: 'githubserviceaccount@githubauth-495804.iam.gserviceaccount.com:generateAccessToken'
+      - name: Login to Artifact Registry
+        uses: docker/login-action@v3
+        with:
+          registry: "us-central1-docker.pkg.dev"
+          username: "oauth2accesstoken"
+          password: "${{ steps.auth.outputs.access_token }}"
        
         
 
