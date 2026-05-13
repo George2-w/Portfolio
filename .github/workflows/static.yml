@@ -33,12 +33,12 @@ jobs:
       
       - name: 'Configure Docker'
         run: |
-          gcloud auth configure-docker us-central1-docker.pkg.dev
+          gcloud auth configure-docker northamerica-northeast2-docker.pkg.dev
 
       - name: Build and Push Docker Image
         run: |
-          docker build -t us-central1-docker.pkg.dev/githubauth-495804/my-repo/IMAGE:TAG .
-          docker push us-central1-docker.pkg.dev/githubauth-495804/my-repo/image:tag
+          docker build -t northamerica-northeast2-docker.pkg.dev/githubauth-495804/mywebrepo/IMAGE:TAG .
+          docker push northamerica-northeast2-docker.pkg.dev/githubauth-495804/mywebrepo/image:tag
      
 
         
