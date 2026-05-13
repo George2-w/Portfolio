@@ -39,10 +39,6 @@ jobs:
         run: |
           docker build -t us-central1-docker.pkg.dev/githubauth-495804/my-repo/IMAGE:TAG .
           docker push us-central1-docker.pkg.dev/githubauth-495804/my-repo/image:tag
-
-      
-       
-          
      
 
         
