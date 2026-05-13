@@ -30,11 +30,10 @@ jobs:
           access_token_lifetime: 600s
       - name: 'Print Token'
         run: gcloud auth print-access-token
-      - name: 'Docker Auth'
+      
+      - name: 'Configure Docker'
         run: |
-          echo "${{ steps.auth.outputs.access_token }}" | docker login \
-            -u oauth2accesstoken \
-            --password-stdin https://us-central1-docker.pkg.dev
+          gcloud auth configure-docker LOCATION-docker.pkg.dev
 
       
        
