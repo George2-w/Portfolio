@@ -14,10 +14,9 @@ RUN npm run build
 
 FROM nginx:alpine
 RUN rm /etc/nginx/conf.d/default.conf
-COPY ./nginx/nginx.conf /etc/nginx/nginx.conf/
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 # Copy the build output from the first stage to Nginx
 COPY --from=base /usr/src/app/dist/ /usr/share/nginx/html/
-
 CMD [ "nginx" , "-g" , "deamon off;" , "npm" , "run" , "app", "dev" ]
 # EXPOSE the internal port NPM will look for
 EXPOSE 80
