@@ -14,7 +14,7 @@ RUN npm run build
 
 FROM nginx:alpine
 # Copy the build output from the first stage to Nginx
-COPY --from=base /usr/src/app/dist/ /usr/share/nginx/html
+COPY --from=base /usr/src/app/dist/ /usr/share/nginx/html/
 
 CMD [ "nginx" , "-g" , "deamon off;" , "npm" , "run" , "app", "dev" ]
 # EXPOSE the internal port NPM will look for
