@@ -13,7 +13,7 @@ RUN npm run build
 # Stage 2: Serve the app with Nginx
 
 FROM nginx:alpine
-COPY ./nginx/nginx.conf  /etc/nginx/nginx.conf
+COPY ./nginx/conf.d/default.conf  /etc/nginx/conf.d/default.conf
 # Copy the build output from the first stage to Nginx
 COPY --from=base  /app/dist/  /usr/share/nginx/html/
 CMD [ "nginx" , "-g" , "deamon off;" , "npm" , "run" , "app", "dev" ]
