@@ -1,6 +1,6 @@
 ################################################################################
 # Use node image for base image for all stages.
-FROM node:16.20.2-alpine AS base
+FROM node:20.19.0-alpine AS base
 
 # Set working directory for all build stages.
 WORKDIR /usr/src/app
