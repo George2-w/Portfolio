@@ -6,7 +6,7 @@ function App() {
 
   return (
     <> 
-    <BrowserRouter>
+    <BrowserRouter basename = "/">
     <Routes>
       <Route index element={<Home/>}/> 
     </Routes>
