@@ -16,6 +16,6 @@ FROM nginx:alpine
 COPY ./nginx/conf.d/nginx.conf /etc/nginx/conf.d/nginx.conf
 # Copy the build output from the first stage to Nginx
 COPY --from=base /app/dist/ /usr/share/nginx/html/
-CMD [ "nginx" , "-g" , "deamon off;"]
+CMD nginx -g "daemon off;"
 # EXPOSE the internal port NPM will look for
 EXPOSE 80
