@@ -1,1 +1,20 @@
-
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: myingress
+  annotations:
+    # Specifies the GKE-native external HTTP(S) Load Balancer
+    kubernetes.io/ingress.class: "gce"
+    # Configures a public, external static IP (Optional: remove line to use an ephemeral public IP)
+    kubernetes.io/ingress.global-static-ip-name: "clusteripaddress"
+spec:
+  rules:
+  - http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: majorservice
+            port:
+              number: 80
