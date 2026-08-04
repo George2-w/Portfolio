@@ -1,1 +1,29 @@
-
+apiVersion: v1
+kind: Service
+metadata:
+  name: node-sailorservice
+  labels:
+    app: my-app
+spec:
+  type: ClusterIP
+  selector:
+    app: my-app
+  ports:
+  - port: 3894
+    targetPort: 3894     # issue matching the 8080 backend port which expose the app to incoming traffic
+    protocol: TCP
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: nginx-sailorservice
+  labels:
+    app: my-app
+spec:
+  type: LoadBalancer
+  selector:
+    app: my-app
+  ports:
+  - port: 80
+    targetPort: 8080
+    protocol: TCP
