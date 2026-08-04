@@ -18,4 +18,4 @@ COPY ./nginx/conf.d/nginx.conf /etc/nginx/conf.d/nginx.conf
 COPY --from=base /app/dist/ /usr/share/nginx/html/
 CMD nginx -g "daemon off;"
 # EXPOSE the internal port NPM will look for
-EXPOSE 80
+EXPOSE 8080
