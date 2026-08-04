@@ -10,7 +10,6 @@ COPY package*.json ./
 RUN npm install
 COPY . .
 RUN npm run build
-CMD [ "npm" "run" "app" ]
 # Stage 2: Serve the app with Nginx
 
 FROM nginx:alpine
