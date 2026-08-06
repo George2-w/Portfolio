@@ -44,8 +44,8 @@ jobs:
       - name: Get GKE Credentials
         uses: google-github-actions/get-gke-credentials@v2
         with:
-          cluster_name: ${{ env.GKE_CLUSTER }}
-          location: ${{ env.GKE_ZONE }}
+          cluster_name: autopilot-cluster-1
+          location: us-central1
   
       # 6. Dynamically update the image tag in deployment.yaml and apply it
       - name: Deploy to GKE Cluster
