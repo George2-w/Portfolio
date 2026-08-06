@@ -54,7 +54,7 @@ jobs:
           
           # Replace the placeholder or existing image tag inside your configuration
           # Assumes deployment.yaml specifies: image: us-central1-docker.pkg.dev/.../my-app:latest
-          sed -i "s|image: .*image:.*|image: $TAG|g" K8s/deployment.yaml
+          sed -i "s|image: .*image:.*|image: $TAG|g" ./K8s/deployment.yaml
           
           kubectl apply -f deployment.yaml
           kubectl rollout status deployment/my-app-deployment
