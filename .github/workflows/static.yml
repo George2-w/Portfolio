@@ -49,13 +49,3 @@ jobs:
           location: us-central1
           manifests: 'deployment.yaml'
           images: 'gcr.io/440081038764/my-image:tag'
-
-          # Deploying your application to GKE.    
-      - name: Deploying to GKE
-        run: |-
-            gcloud config set project githubauth-495804
-            gcloud container clusters get-credentials cabin --zone us-central1 --project githubauth-495804
-            cd ../"gw2repo"
-            kubectl apply -f deployment.yaml
-            kubectl get pods -o wide
-            kubectl get services -o wide  
