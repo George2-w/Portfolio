@@ -46,16 +46,5 @@ jobs:
         with:
           cluster_name: cabin
           location: us-central1
-  
-      # 6. Dynamically update the image tag in deployment.yaml and apply it
-      - name: Deploy to GKE Cluster
-        run: |
-          TAG="northamerica-northeast2-docker.pkg.dev/githubauth-495804/gw2repo/image:tag"
-          
-        apiVersion: kustomize.config.k8s.io/v1beta1
-        kind: Kustomization
-        resources:
-          - deployment.yaml # Points to your original deployment file
-          kubectl rollout status deployment/my-app-deployment
-       
-        
+          manifests: 'deployment.yaml'
+          images: 'gcr.io/440081038764/my-image:tag'
