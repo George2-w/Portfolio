@@ -52,7 +52,7 @@ jobs:
           
       - name: Deploy to GKE 
         run: |
-          sed -i "s|image: image:tag|image: gw2provider:sha-${{ github.sha }}|g" /K8s/deployment.yml
+          sed -i "s|image: image:tag|image: gw2provider:sha-${{ github.sha }}|g" ./K8s/deployment.yml
           kubectl apply -f k8s/deployment.yaml
           kubectl apply -f k8s/service.yaml
           kubectl apply -f K8s/ingress.yaml
