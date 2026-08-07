@@ -49,3 +49,8 @@ jobs:
           location: us-central1
           manifests: 'deployment.yaml'
           images: 'gcr.io/440081038764/my-image:tag'
+          
+      - name: Deploy to GKE 
+        run: |
+          kubectl apply -f k8s/deployment.yaml
+          kubectl apply -f k8s/service.yaml
