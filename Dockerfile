@@ -13,7 +13,7 @@ RUN npm run build
 # Stage 2: Serve the app with Nginx
 
 FROM nginx:alpine
-COPY ./nginx/conf.d/nginx.conf /etc/nginx/conf.d/nginx.conf
+COPY ./nginx/nginx.conf /etc/nginx/nginx.conf
 # Copy the build output from the first stage to Nginx
 COPY --from=base /app/dist/ /usr/share/nginx/html/
 CMD nginx -g "daemon off;"
