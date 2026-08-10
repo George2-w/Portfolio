@@ -11,6 +11,8 @@
     "preview": "vite preview",
     "predeploy": "npm run build",
     "deploy": "gh-pages -d dist"
+    "homepage": "http://ajileyegeorgeportfolio.com",
+
   },
   "dependencies": {
     "@gsap/react": "^2.1.2",
